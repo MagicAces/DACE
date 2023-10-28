@@ -1,0 +1,29 @@
+{
+  "canisters": {
+    "DACE_backend": {
+      "main": "src/DACE_backend/main.mo",
+      "type": "motoko"
+    },
+    "DACE_frontend": {
+      "dependencies": [
+        "DACE_backend"
+      ],
+      "frontend": {
+        "entrypoint": "src/DACE_frontend/src/index.html"
+      },
+      "source": [
+        "src/DACE_frontend/assets",
+        "dist/DACE_frontend/"
+      ],
+      "type": "assets"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
