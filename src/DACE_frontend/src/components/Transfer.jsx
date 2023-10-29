@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { DACE_backend } from "../../../declarations/DACE_backend";
+import { canisterId, createActor } from "../../../declarations/DACE_backend";
 import { Principal } from "@dfinity/principal";
+import { AuthClient } from "@dfinity/auth-client";
 
 function Transfer() {
   const [to, setTo] = useState("");
@@ -13,7 +14,16 @@ function Transfer() {
       return;
     setDisable(true);
     let toPrincipal = Principal.fromText(to);
-    const message = await DACE_backend.transfer(toPrincipal, Number(amount));
+
+    const authClient = await AuthClient.create();
+    const identity = await authClient.getIdentity();
+    const authenticatedCanister = createActor(canisterId, {
+      agentOptions: {
+        identity,
+      },
+    })
+
+    const message = await authenticatedCanister.transfer(toPrincipal, Number(amount));
     setMessage(message);
     setDisable(false);
   }
